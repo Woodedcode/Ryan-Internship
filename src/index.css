@@ -69,6 +69,13 @@
   animation: shimmer 1.5s infinite;
 }
 
+.new-items-skeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 0 30px;
+}
+
 @keyframes shimmer {
   0% {
     background-position: 200% 0;

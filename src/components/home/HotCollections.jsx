@@ -29,7 +29,6 @@ const settings = {
         slidesToScroll: 1
       }
     },
-    
     {
       breakpoint: 480,
       settings: {
