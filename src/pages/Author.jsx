@@ -20,8 +20,6 @@ const Author = () => {
       setAuthor(selectedAuthor);
     });
 }, [id]);
-
-console.log(Object.keys(author));
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
