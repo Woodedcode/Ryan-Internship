@@ -1,9 +1,25 @@
-import React from "react";
+import React, {useState,useEffect} from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
+import axios from "axios";
 
 const ExploreItems = () => {
+  const [items,setItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState(8)
+  console.log('visibleItems:', visibleItems)
+  console.log(items);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      const response = await axios.get("https://us-central1-nft-cloud-functions.cloudfunctions.net/explore");
+      const data = await response.data;
+
+      setItems(data);
+    }
+      fetchItems();
+  }, []);
+
   return (
     <>
       <div>
@@ -14,7 +30,7 @@ const ExploreItems = () => {
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {new Array(8).fill(0).map((_, index) => (
+      {items.slice(0,visibleItems).map((item, index) => (
         <div
           key={index}
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
@@ -27,7 +43,7 @@ const ExploreItems = () => {
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
               >
-                <img className="lazy" src={AuthorImage} alt="" />
+                <img className="lazy" src={item.authorImage} alt="" />
                 <i className="fa fa-check"></i>
               </Link>
             </div>
@@ -52,24 +68,24 @@ const ExploreItems = () => {
                 </div>
               </div>
               <Link to="/item-details">
-                <img src={nftImage} className="lazy nft__item_preview" alt="" />
+                <img src={item.nftImage} className="lazy nft__item_preview" alt="" />
               </Link>
             </div>
             <div className="nft__item_info">
               <Link to="/item-details">
-                <h4>Pinky Ocean</h4>
+                <h4>{item.title}</h4>
               </Link>
-              <div className="nft__item_price">1.74 ETH</div>
+              <div className="nft__item_price">{item.price} ETH</div>
               <div className="nft__item_like">
                 <i className="fa fa-heart"></i>
-                <span>69</span>
+                <span>{item.likes}</span>
               </div>
             </div>
           </div>
         </div>
       ))}
       <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" className="btn-main lead">
+        <Link to="" id="loadmore" onClick={() => setVisibleItems(visibleItems + 4)} className="btn-main lead">
           Load more
         </Link>
       </div>
