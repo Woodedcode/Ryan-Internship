@@ -50,7 +50,6 @@ const NewItems = () => {
   axios
     .get("https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems")
     .then((response) => {
-      console.log(response.data[0])
       setItems(response.data);
       setLoading(false);
     });
