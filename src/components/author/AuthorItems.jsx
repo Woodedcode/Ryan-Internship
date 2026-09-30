@@ -1,9 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AuthorItems = ({author}) => {
-
-
+const AuthorItems = ({ author }) => {
   return (
     <div className="de_tab_content">
       <div className="tab-1">
@@ -35,7 +33,7 @@ const AuthorItems = ({author}) => {
                       </div>
                     </div>
                   </div>
-                  <Link to="/item-details">
+                  <Link to={`/item-details?nftId=${item.nftId}`}>
                     <img
                       src={item.nftImage}
                       className="lazy nft__item_preview"
@@ -44,7 +42,7 @@ const AuthorItems = ({author}) => {
                   </Link>
                 </div>
                 <div className="nft__item_info">
-                  <Link to="/item-details">
+                  <Link to={`/item-details?nftId=${item.nftId}`}>
                     <h4>{item.title}</h4>
                   </Link>
                   <div className="nft__item_price">{item.price} ETH</div>
