@@ -1,27 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import AuthorImage from "../../images/author_thumbnail.jpg";
-import nftImage from "../../images/nftImage.jpg";
 
 const AuthorItems = ({author}) => {
-  const [items, setItems] = useState([])
 
-  useEffect(() => {
-  fetch(
-    "https://us-central1-nft-cloud-functions.cloudfunctions.net/newItems"
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("NFT DATA:", data);
-      setItems(data);
-    });
-}, []);
 
   return (
     <div className="de_tab_content">
       <div className="tab-1">
         <div className="row">
-          {items.map((item) => (
+          {author?.nftCollection?.map((item) => (
             <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.id}>
               <div className="nft__item">
                 <div className="author_list_pp">

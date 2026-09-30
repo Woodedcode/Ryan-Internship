@@ -9,6 +9,7 @@ const ExploreItems = () => {
   const [visibleItems, setVisibleItems] = useState(8)
   console.log('visibleItems:', visibleItems)
   console.log(items);
+  console.log("FIRST AUTHOR ID:", items[0]?.authorId);
 
   const fetchItems = async (filter) => {
     const url = filter ? 
@@ -46,7 +47,7 @@ const ExploreItems = () => {
           <div className="nft__item">
             <div className="author_list_pp">
               <Link
-                to="/author"
+                to={`/author/${item.authorId}`}
                 data-bs-toggle="tooltip"
                 data-bs-placement="top"
               >
