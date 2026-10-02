@@ -1,46 +1,49 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import AuthorImage from "../../images/author_thumbnail.jpg";
 import nftImage from "../../images/nftImage.jpg";
 import axios from "axios";
 
 const ExploreItems = () => {
-  const [items,setItems] = useState([]);
-  const [visibleItems, setVisibleItems] = useState(8)
-  console.log('visibleItems:', visibleItems)
+  const [items, setItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState(8);
+  console.log("visibleItems:", visibleItems);
   console.log(items);
   console.log("FIRST AUTHOR ID:", items[0]?.authorId);
 
   const fetchItems = async (filter) => {
-    const url = filter ? 
-    `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`
-    :
-    `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`
-      const response = await axios.get(url);
-      const data = await response.data;
+    const url = filter
+      ? `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore?filter=${filter}`
+      : `https://us-central1-nft-cloud-functions.cloudfunctions.net/explore`;
+    const response = await axios.get(url);
+    const data = await response.data;
 
-      setItems(data);
-
-    }
+    setItems(data);
+  };
 
   useEffect(() => {
-    
-      fetchItems();
+    fetchItems();
   }, []);
 
   return (
     <>
-      <div>
-        <select id="filter-items" defaultValue="" onChange={(event) => fetchItems(event.target.value)}>
+      <div data-aos="fade-up" data-aos-duration="500">
+        <select
+          id="filter-items"
+          defaultValue=""
+          onChange={(event) => fetchItems(event.target.value)}
+        >
           <option value="">Default</option>
           <option value="price_low_to_high">Price, Low to High</option>
           <option value="price_high_to_low">Price, High to Low</option>
           <option value="likes_high_to_low">Most liked</option>
         </select>
       </div>
-      {items.slice(0,visibleItems).map((item, index) => (
+      {items.slice(0, visibleItems).map((item, index) => (
         <div
           key={index}
+          data-aos="fade-up"
+          data-aos-duration="500"
           className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
           style={{ display: "block", backgroundSize: "cover" }}
         >
@@ -76,7 +79,11 @@ const ExploreItems = () => {
                 </div>
               </div>
               <Link to={`/item-details?nftId=${item.nftId}`}>
-                <img src={item.nftImage} className="lazy nft__item_preview" alt="" />
+                <img
+                  src={item.nftImage}
+                  className="lazy nft__item_preview"
+                  alt=""
+                />
               </Link>
             </div>
             <div className="nft__item_info">
@@ -93,7 +100,12 @@ const ExploreItems = () => {
         </div>
       ))}
       <div className="col-md-12 text-center">
-        <Link to="" id="loadmore" onClick={() => setVisibleItems(visibleItems + 4)} className="btn-main lead">
+        <Link
+          to=""
+          id="loadmore"
+          onClick={() => setVisibleItems(visibleItems + 4)}
+          className="btn-main lead"
+        >
           Load more
         </Link>
       </div>
