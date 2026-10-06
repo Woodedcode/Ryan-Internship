@@ -1,22 +1,33 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import AuthorBanner from "../images/author_banner.jpg";
 import AuthorItems from "../components/author/AuthorItems";
-import { Link,useParams } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const Author = () => {
-  const {id} = useParams();
+  const { id } = useParams();
+
   const [author, setAuthor] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-  axios
-    .get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${id}`)
-    .then((response) => {
-      console.log("AUTHOR DATA",response.data);
-      setAuthor(response.data);
-    });
-}, [id]);
+    setLoading(true);
+
+    axios
+      .get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?author=${id}`
+      )
+      .then((response) => {
+        console.log("AUTHOR DATA:", response.data);
+          setAuthor(response.data);
+          setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error loading author:", error);
+        setLoading(false);
+      });
+  }, [id]);
+
   return (
     <div id="wrapper">
       <div className="no-bottom no-top" id="content">
@@ -27,49 +38,86 @@ const Author = () => {
           aria-label="section"
           className="text-light"
           data-bgimage="url(images/author_banner.jpg) top"
-          style={{ background: `url(${AuthorBanner}) top` }}
+          style={{
+            background: `url(${AuthorBanner}) top`,
+          }}
         ></section>
 
         <section aria-label="section">
           <div className="container">
             <div className="row">
-              <div className="col-md-12">
-                <div className="d_profile de-flex" data-aos="fade-up" data-aos-duration="500">
-                  <div className="de-flex-col">
-                    <div className="profile_avatar">
-                      <img src={author?.authorImage} alt="" />
 
-                      <i className="fa fa-check"></i>
-                      <div className="profile_name">
-                        <h4>
-                          {author?.authorName}
-                          <span className="profile_username">@{author?.tag}</span>
-                          <span id="wallet" className="profile_wallet">
-                            {author?.address}
-                          </span>
-                          <button id="btn_copy" title="Copy Text">
-                            Copy
-                          </button>
-                        </h4>
+              <div className="col-md-12">
+                {loading ? (
+                  <div className="d_profile de-flex">
+                    <div className="skeleton-card"></div>
+                  </div>
+                ) : (
+                  <div
+                    className="d_profile de-flex"
+                    data-aos="fade-up"
+                    data-aos-duration="500"
+                  >
+                    <div className="de-flex-col">
+                      <div className="profile_avatar">
+                        <img
+                          src={author?.authorImage}
+                          alt=""
+                        />
+
+                        <i className="fa fa-check"></i>
+
+                        <div className="profile_name">
+                          <h4>
+                            {author?.authorName}
+
+                            <span className="profile_username">
+                              @{author?.tag}
+                            </span>
+
+                            <span
+                              id="wallet"
+                              className="profile_wallet"
+                            >
+                              {author?.address}
+                            </span>
+
+                            <button
+                              id="btn_copy"
+                              title="Copy Text"
+                            >
+                              Copy
+                            </button>
+                          </h4>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="profile_follow de-flex">
+                      <div className="de-flex-col">
+                        <div className="profile_follower">
+                          {author?.followers} Followers
+                        </div>
+
+                        <Link to="#" className="btn-main">
+                          Follow
+                        </Link>
                       </div>
                     </div>
                   </div>
-                  <div className="profile_follow de-flex">
-                    <div className="de-flex-col">
-                      <div className="profile_follower">{author?.followers} Followers</div>
-                      <Link to="#" className="btn-main">
-                        Follow
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                )}
               </div>
 
               <div className="col-md-12">
-                <div className="de_tab tab_simple" data-aos="fade-up">
-                  <AuthorItems author={author}/>
+                <div
+                  className="de_tab tab_simple"
+                  data-aos="fade-up"
+                  data-aos-duration="500"
+                >
+                  <AuthorItems author={author} />
                 </div>
               </div>
+
             </div>
           </div>
         </section>

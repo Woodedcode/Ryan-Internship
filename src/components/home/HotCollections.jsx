@@ -71,7 +71,7 @@ useEffect(() => {
             <div key={collection.nftId}>
               <div className="nft_coll">
                 <div className="nft_wrap">
-                  <Link to={`/item-details/${collection.nftId}`}>
+                  <Link to={`/item-details?nftId=${collection.nftId}`}>
                     <img src={collection.nftImage} className="lazy img-fluid" alt="" />
                   </Link>
                 </div>
