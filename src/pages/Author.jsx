@@ -6,7 +6,6 @@ import axios from "axios";
 
 const Author = () => {
   const { id } = useParams();
-
   const [author, setAuthor] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,8 +18,8 @@ const Author = () => {
       )
       .then((response) => {
         console.log("AUTHOR DATA:", response.data);
-          setAuthor(response.data);
-          setLoading(false);
+        setAuthor(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error loading author:", error);
@@ -50,19 +49,21 @@ const Author = () => {
               <div className="col-md-12">
                 {loading ? (
                   <div className="d_profile de-flex">
-                    <div className="skeleton-card"></div>
+                    <div
+                      className="skeleton-card"
+                      style={{
+                        width: "100%",
+                        height: "120px",
+                      }}
+                    ></div>
                   </div>
                 ) : (
-                  <div
-                    className="d_profile de-flex"
-                    data-aos="fade-up"
-                    data-aos-duration="500"
-                  >
+                  <div className="d_profile de-flex">
                     <div className="de-flex-col">
                       <div className="profile_avatar">
                         <img
                           src={author?.authorImage}
-                          alt=""
+                          alt={author?.authorName}
                         />
 
                         <i className="fa fa-check"></i>
@@ -109,11 +110,7 @@ const Author = () => {
               </div>
 
               <div className="col-md-12">
-                <div
-                  className="de_tab tab_simple"
-                  data-aos="fade-up"
-                  data-aos-duration="500"
-                >
+                <div className="de_tab tab_simple">
                   <AuthorItems author={author} />
                 </div>
               </div>
